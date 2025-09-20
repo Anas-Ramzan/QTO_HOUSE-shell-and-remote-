@@ -1,15 +1,30 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { Suspense } from "react";
 
-function App() {
-  const [count, setCount] = useState(0)
+const Header = React.lazy(() => import("theme/Header"));
+const Sidebar = React.lazy(() => import("theme/Sidebar"));
 
+export default function App() {
   return (
-    <div className='text-[50px]'>Hello world</div>
+    <div className="min-h-screen grid grid-cols-[260px_1fr]">
+      <Suspense fallback={<div className="p-6">Loading Sidebar…</div>}>
+        <Sidebar />
+      </Suspense>
 
-  )
+      <div>
+        <Suspense fallback={<div className="p-6">Loading Header…</div>}>
+          <Header
+            title="Attendance Portal"
+            subtitle="Employee Attendance Management System"
+          />
+        </Suspense>
+
+        <div className="p-6">
+          <h2 className="text-2xl font-bold text-gray-900">Attendance Dashboard</h2>
+          <p className="text-gray-600">
+            Here you’ll manage check-ins, check-outs, reports, and attendance records.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
 }
-
-export default App

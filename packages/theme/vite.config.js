@@ -1,7 +1,7 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import tailwindcss from '@tailwindcss/vite'
-import federation from '@originjs/vite-plugin-federation'
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import tailwindcss from "@tailwindcss/vite";
+import federation from "@originjs/vite-plugin-federation";
 
 export default defineConfig({
   plugins: [
@@ -9,23 +9,20 @@ export default defineConfig({
     tailwindcss(),
     federation({
       name: 'theme',
-      filename: 'remoteEntry.js',
+      filename: "remoteEntry.js",
       exposes: {
-        './Button': './src/Button.jsx',
-        './Input': './src/Input.jsx',
-        './Card': './src/Card.jsx',
-        './Alert': './src/Alert.jsx',
-        './Modal': './src/Modal.jsx',
-        './Badge': './src/Badge.jsx',
-        './ThemeToggle': './src/ThemeToggle.jsx',
+        "./Header": "./src/layouts/Header.jsx",
+        "./Sidebar": "./src/layouts/Sidebar.jsx",
+        "./PageLayout": "./src/layouts/PageLayout.jsx",
+        "./Cards": "./src/components/Cards.jsx",
       },
-      shared: ['react', 'react-dom']
-    })
+      shared: {
+        react: { singleton: true, requiredVersion: '^19.1.1' },
+        "react-dom": { singleton: true, requiredVersion: '^19.1.1' },
+        "react-router-dom": { singleton: true, requiredVersion: '^7.9.1' },
+      },
+    }),
   ],
-  server: {
-    port: 5102
-  },
-  build: {
-    target: 'esnext'
-  }
-})
+  server: { port: 5102, host: true, strictPort:true },
+  build: { target: "esnext", minify: false, cssCodeSplit: true },
+});
