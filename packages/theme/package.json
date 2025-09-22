@@ -9,21 +9,22 @@
     "lint": "eslint .",
     "preview": "vite preview"
   },
-"exports": {
-  "./Header": "./src/layouts/Header.jsx",
-  "./Sidebar": "./src/layouts/Sidebar.jsx",
-  "./PageLayout": "./src/layouts/PageLayout.jsx",
-  "./Cards": "./src/components/Cards.jsx",
-  "./index": "./src/index.js",
-  "./tokens.css": "./src/tokens.css",
-  "./index.css": "./src/index.css",
-  "./tailwind.config.js": "./tailwind.config.js"
-},
-
+  "exports": {
+    "./Header": "./src/layouts/Header.jsx",
+    "./Sidebar": "./src/layouts/Sidebar.jsx",
+    "./PageLayout": "./src/layouts/PageLayout.jsx",
+    "./Cards": "./src/components/Cards.jsx",
+    "./index": "./src/index.js",
+    "./tokens.css": "./src/tokens.css",
+    "./index.css": "./src/index.css",
+    "./tailwind.config.js": "./tailwind.config.js"
+  },
+  "peerDependencies": {
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1"
+  },
   "dependencies": {
     "lucide-react": "^0.544.0",
-    "react": "^19.1.1",
-    "react-dom": "^19.1.1",
     "react-icons": "^5.5.0",
     "tailwind-merge": "^3.3.1",
     "react-router-dom": "^7.9.1"
@@ -32,8 +33,8 @@
     "@eslint/js": "^9.33.0",
     "@originjs/vite-plugin-federation": "^1.4.1",
     "@tailwindcss/vite": "^4.1.13",
-    "@types/react": "^19.1.10",
-    "@types/react-dom": "^19.1.7",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
     "@vitejs/plugin-react": "^5.0.3",
     "autoprefixer": "^10.4.21",
     "eslint": "^9.33.0",

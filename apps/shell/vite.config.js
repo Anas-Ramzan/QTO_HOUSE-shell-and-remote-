@@ -1,36 +1,89 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-import federation from "@originjs/vite-plugin-federation";
-import path from "path";
+/* eslint-env node */
+import { defineConfig } from "vite"
+import react from "@vitejs/plugin-react"
+import tailwindcss from "@tailwindcss/vite"
+import federation from "@originjs/vite-plugin-federation"
+import path from "path"
 
-export default defineConfig(() => {
-  // If remotes are running with `vite preview`, run Shell like:
-  //   REMOTES_PREVIEW=1 npm run dev
-  const PREVIEW = process.env.REMOTES_PREVIEW === "1";
+const isPreview = (process.env.VITE_REMOTES_PREVIEW || "0") === "1"
 
-  const themeUrl = PREVIEW
-    ? "http://localhost:5102/assets/remoteEntry.js" // preview
-    : "http://localhost:5102/remoteEntry.js";       // dev
-
-  const attendanceUrl = PREVIEW
-    ? "http://localhost:5101/assets/remoteEntry.js"
-    : "http://localhost:5101/remoteEntry.js";
-
-  return {
-    plugins: [
-      react(),
-      federation({
-        name: "shell",
-        remotes: { theme: themeUrl, attendance: attendanceUrl },
-        shared: ["react", "react-dom", "react-router-dom"],
-      }),
-    ],
-    resolve: {
-      alias: {
-        "@qto/qto-theme": path.resolve(__dirname, "../../packages/theme/src"),
+export default defineConfig({
+  plugins: [
+    react(),
+    tailwindcss(),
+    federation({
+      name: "shell",
+      remotes: {
+        attendance: isPreview ? "http://localhost:5101/assets/remoteEntry.js" : "http://localhost:5101/remoteEntry.js",
+        theme: isPreview ? "http://localhost:5102/assets/remoteEntry.js" : "http://localhost:5102/remoteEntry.js",
+      },
+      shared: {
+        react: { singleton: true, eager: true, requiredVersion: false },
+        "react-dom": { singleton: true, eager: true, requiredVersion: false },
+        "react-router-dom": { singleton: true, eager: true, requiredVersion: false },
+      },
+    }),
+  ],
+  resolve: {
+    alias: {
+      "@qto/qto-theme": path.resolve(__dirname, "../../packages/theme/src"),
+    },
+  },
+  server: { port: 5100, strictPort: true },
+  preview: {
+    port: 5100,
+    strictPort: true,
+    proxy: {
+      "^/__federation_expose_.*\\.js$": {
+        target: (req) => {
+          const referer = req.headers.referer
+          if (referer && referer.includes(":5102")) {
+            return "http://localhost:5102"
+          }
+          if (referer && referer.includes(":5101")) {
+            return "http://localhost:5101"
+          }
+          return "http://localhost:5100"
+        },
+        rewrite: (p) => "/assets" + p,
+        changeOrigin: true,
+      },
+      "^/__federation_expose_.*\\.css$": {
+        target: (req) => {
+          const referer = req.headers.referer
+          if (referer && referer.includes(":5102")) {
+            return "http://localhost:5102"
+          }
+          if (referer && referer.includes(":5101")) {
+            return "http://localhost:5101"
+          }
+          return "http://localhost:5100"
+        },
+        rewrite: (p) => "/assets" + p,
+        changeOrigin: true,
+      },
+      "^/[^/]+\\.js$": {
+        target: (req) => {
+          const referer = req.headers.referer
+          if (referer && referer.includes(":5102")) {
+            return "http://localhost:5102"
+          }
+          if (referer && referer.includes(":5101")) {
+            return "http://localhost:5101"
+          }
+          return "http://localhost:5100"
+        },
+        rewrite: (p) => "/assets" + p,
+        changeOrigin: true,
+      },
+      "^/attendance/remoteEntry.js$": {
+        target: "http://localhost:5101",
+        rewrite: () => "/assets/remoteEntry.js",
+      },
+      "^/theme/remoteEntry.js$": {
+        target: "http://localhost:5102",
+        rewrite: () => "/assets/remoteEntry.js",
       },
     },
-    build: { target: "esnext" },
-    server: { port: 5100 },
-  };
-});
+  },
+})

@@ -1,30 +1,23 @@
-import React, { Suspense } from "react";
+import React from "react";
+import { Cards, Header, PageLayout, Sidebar } from "@qto/qto-theme";
 
-const Header = React.lazy(() => import("theme/Header"));
-const Sidebar = React.lazy(() => import("theme/Sidebar"));
-
-export default function App() {
+function App() {
   return (
-    <div className="min-h-screen grid grid-cols-[260px_1fr]">
-      <Suspense fallback={<div className="p-6">Loading Sidebar…</div>}>
+    <PageLayout>
+      <Header title="Attendance Portal" />
+      <div className="flex">
         <Sidebar />
-      </Suspense>
-
-      <div>
-        <Suspense fallback={<div className="p-6">Loading Header…</div>}>
-          <Header
-            title="Attendance Portal"
-            subtitle="Employee Attendance Management System"
-          />
-        </Suspense>
-
-        <div className="p-6">
-          <h2 className="text-2xl font-bold text-gray-900">Attendance Dashboard</h2>
-          <p className="text-gray-600">
-            Here you’ll manage check-ins, check-outs, reports, and attendance records.
-          </p>
-        </div>
+        <main className="p-6 flex-1">
+          <h1 className="text-2xl font-bold mb-4">Welcome to Attendance</h1>
+          <Cards title="Today’s Status">
+            <p className="text-sm text-gray-600">
+              Here you’ll see attendance updates, check-in/check-out, and break status.
+            </p>
+          </Cards>
+        </main>
       </div>
-    </div>
+    </PageLayout>
   );
 }
+
+export default App;
