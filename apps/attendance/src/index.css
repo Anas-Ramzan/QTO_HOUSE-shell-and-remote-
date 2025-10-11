@@ -1,1 +1,11 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Removed problematic import and added tokens directly */
+:root {
+  --color-gray: #9ca3af;
+  --color-dark-gray: #111827;
+  --color-yellow: #facc15;
+  --color-dark-yellow: #ca8a04;
+}
