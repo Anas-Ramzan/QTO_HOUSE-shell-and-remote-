@@ -4,7 +4,7 @@ import Card from "./components/Cards";
 import PageLayout from "./layouts/PageLayout";
 import Header from "./layouts/Header";
 import { Building2, Palette, Users } from "lucide-react";
-import "./App.css";
+// import "./App.css";
 
 function App() {
   const location = useLocation();

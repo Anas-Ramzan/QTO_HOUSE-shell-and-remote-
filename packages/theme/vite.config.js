@@ -23,60 +23,43 @@ export default defineConfig({
       },
     }),
   ],
-  build: { target: "esnext" },
+  build: {
+    target: "esnext",
+    cssCodeSplit: false,
+  },
   server: { port: 5102, strictPort: true },
   preview: {
-  port: 5102,
-  strictPort: true,
-  proxy: {
-    "/remoteEntry.js": {
-      target: "http://localhost:5102",
-      rewrite: () => "/assets/remoteEntry.js",
-    },
-    "/__federation_expose_": {
-      target: "http://localhost:5102",
-      rewrite: (p) => "/assets" + p,
-    },
-    "/__federation_fn_import-": {
-      target: "http://localhost:5102",
-      rewrite: (p) => "/assets" + p,
-    },
-    "/_federation_expose_": {
-      target: "http://localhost:5102",
-      rewrite: (p) => "/assets/" + "_" + p.slice(2),
-    },
-    "/_federation_fn_import-": {
-      target: "http://localhost:5102",
-      rewrite: (p) => "/assets/" + "_" + p.slice(2),
-    },
-    "/createLucideIcon-": {
-      target: "http://localhost:5102",
-      rewrite: (p) => "/assets" + p,
-    },
-    "/jsx-runtime-": {
-      target: "http://localhost:5102",
-      rewrite: (p) => "/assets" + p,
+    port: 5102,
+    strictPort: true,
+    proxy: {
+      "/remoteEntry.js": {
+        target: "http://localhost:5102",
+        rewrite: () => "/assets/remoteEntry.js",
+      },
+      "/__federation_expose_": {
+        target: "http://localhost:5102",
+        rewrite: (p) => "/assets" + p,
+      },
+      "/__federation_fn_import-": {
+        target: "http://localhost:5102",
+        rewrite: (p) => "/assets" + p,
+      },
+      "/_federation_expose_": {
+        target: "http://localhost:5102",
+        rewrite: (p) => "/assets/" + "_" + p.slice(2),
+      },
+      "/_federation_fn_import-": {
+        target: "http://localhost:5102",
+        rewrite: (p) => "/assets/" + "_" + p.slice(2),
+      },
+      "/createLucideIcon-": {
+        target: "http://localhost:5102",
+        rewrite: (p) => "/assets" + p,
+      },
+      "/jsx-runtime-": {
+        target: "http://localhost:5102",
+        rewrite: (p) => "/assets" + p,
+      },
     },
   },
-},
-
-  // preview: {
-  //   port: 5102,
-  //   strictPort: true,
-  //   proxy: {
-  //     // Make /remoteEntry.js resolve correctly
-  //     "/remoteEntry.js": {
-  //       target: "http://localhost:5102",
-  //       rewrite: () => "/assets/remoteEntry.js",
-  //     },
-  //     "^/__federation_expose_.*\\.js$": {
-  //       target: "http://localhost:5102",
-  //       rewrite: (p) => "/assets" + p,
-  //     },
-  //     "^/__federation_fn_import-.*\\.js$": {
-  //       target: "http://localhost:5102",
-  //       rewrite: (p) => "/assets" + p,
-  //     },
-  //   },
-  // },
 })

@@ -1,10 +1,16 @@
-import baseConfig from "@qto/qto-theme/tailwind.config.js";
-
+/** @type {import('tailwindcss').Config} */
 export default {
-  ...baseConfig,
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-    ...baseConfig.content,
-  ],
-};
+  content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}", "../../packages/theme/src/**/*.{js,jsx,ts,tsx}"],
+  theme: {
+    extend: {
+      colors: {
+        brandGray: "var(--color-gray)",
+        brandDarkGray: "var(--color-dark-gray)",
+        brandYellow: "var(--color-yellow)",
+        brandDarkYellow: "var(--color-dark-yellow)",
+      },
+    },
+  },
+  corePlugins: { preflight: false },
+  plugins: [],
+}

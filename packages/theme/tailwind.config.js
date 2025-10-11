@@ -1,10 +1,8 @@
-import tailwindcss from "@tailwindcss/vite";
-
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
-    "./src/**/*.{js,jsx,ts,tsx}",
-    "../../apps/**/*.{js,jsx,ts,tsx}", // Scan Shell + Attendance
+    "./index.html",
+    "./src/**/*.{js,jsx,ts,tsx}"
   ],
   theme: {
     extend: {
